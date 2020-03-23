@@ -1,4 +1,4 @@
-from api.extensions import db
+from .extensions import db
 
 
 movies_actors = db.Table('movies_actors',

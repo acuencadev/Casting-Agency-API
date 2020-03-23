@@ -21,8 +21,8 @@ def create_app(test_settings=None):
 
 
 def register_extensions(app: Flask):
-    from api.extensions import db, migrate
-    from api.models import Movie, Actor
+    from .extensions import db, migrate
+    from .models import Movie, Actor
 
     db.init_app(app)
     migrate.init_app(app, db)
