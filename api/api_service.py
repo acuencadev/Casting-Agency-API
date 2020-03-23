@@ -39,3 +39,23 @@ class MoviesRepository:
         formatted_movie = movie.format()
 
         return formatted_movie
+
+    @staticmethod
+    def update_movie(id: int, title: str = None,
+                     release_date: str = None) -> Optional[Movie]:
+        movie = Movie.query.get(id)
+
+        if not movie:
+            return None
+
+        if title:
+            movie.title = title
+
+        if release_date:
+            movie.release_date = release_date
+
+        db.session.commit()
+
+        formatted_movie = movie.format()
+
+        return formatted_movie

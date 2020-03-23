@@ -75,3 +75,27 @@ def test_create_movie_with_params_return_ok(client):
 
     assert 200 == response.status_code
     assert 'Gladiator' == response_json['movie']['title']
+
+
+def test_update_movie_without_params_returns_bad_request(client):
+    response = client.patch('/movies/0', json={})
+
+    assert 400 == response.status_code
+
+
+def test_update_non_existing_movie_returns_not_found(client):
+    response = client.patch('/movies/0', json={
+        'title': "The Matrix Reloaded"
+    })
+
+    assert 404 == response.status_code
+
+
+def test_update_existing_movie_returns_ok(client):
+    response = client.patch('/movies/1', json={
+        'title': "The Matrix Reloaded"
+    })
+    response_json = json.loads(response.data)
+
+    assert 200 == response.status_code
+    assert "The Matrix Reloaded" == response_json['movie']['title']
