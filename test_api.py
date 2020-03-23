@@ -37,3 +37,10 @@ def test_get_all_movies_returns_ok(client):
     assert response_json['success'] == True
     assert response_json['movies'] == []
     assert response_json['movies_count'] == 0
+
+
+def test_get_non_existing_movie_returns_ok_but_empty_response(client):
+    response = client.get('/movies/0')
+    response_json = json.loads(response.data)
+
+    assert 404 == response.status_code
