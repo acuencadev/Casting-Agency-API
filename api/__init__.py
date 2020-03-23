@@ -21,9 +21,10 @@ def create_app(test_settings=None):
 
 
 def register_extensions(app: Flask):
-    from .extensions import db, migrate
+    from .extensions import cors, db, migrate
     from .models import Movie, Actor
 
+    cors.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
 
@@ -31,5 +32,5 @@ def register_extensions(app: Flask):
 def register_blueprints(app: Flask):
     from .endpoints import actors_bp, movies_bp
 
-    app.register_blueprint(actors_bp)
-    app.register_blueprint(movies_bp)
+    app.register_blueprint(actors_bp, url_prefix='/actors')
+    app.register_blueprint(movies_bp, url_prefix='/movies')

@@ -28,3 +28,12 @@ def test_home_route(client):
 
     assert 'message' in response_json
     assert "Hello World" == response_json['message']
+
+
+def test_get_all_movies_returns_ok(client):
+    response = client.get('/movies')
+    response_json = json.loads(response.data)
+
+    assert response_json['success'] == True
+    assert response_json['movies'] == []
+    assert response_json['movies_count'] == 0
