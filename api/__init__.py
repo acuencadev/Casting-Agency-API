@@ -11,3 +11,6 @@ def create_app(test_settings=None):
         })
 
     return app
+
+
+app = create_app()
