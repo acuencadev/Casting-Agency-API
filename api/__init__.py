@@ -9,6 +9,7 @@ def create_app(test_settings=None):
         app.config.update(test_settings)
 
     register_extensions(app)
+    register_blueprints(app)
 
     @app.route('/')
     def home():
@@ -25,3 +26,10 @@ def register_extensions(app: Flask):
 
     db.init_app(app)
     migrate.init_app(app, db)
+
+
+def register_blueprints(app: Flask):
+    from .endpoints import actors_bp, movies_bp
+
+    app.register_blueprint(actors_bp)
+    app.register_blueprint(movies_bp)
