@@ -59,3 +59,19 @@ class MoviesRepository:
         formatted_movie = movie.format()
 
         return formatted_movie
+
+    @staticmethod
+    def delete_movie(id: int) -> bool:
+        movie = Movie.query.get(id)
+
+        if not movie:
+            return False
+
+        try:
+            db.session.delete(movie)
+            db.session.commit()
+        except SQLAlchemyError:
+            # TODO: Log DB error into log file.
+            return False
+
+        return True

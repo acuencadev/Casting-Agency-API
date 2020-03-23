@@ -99,3 +99,19 @@ def test_update_existing_movie_returns_ok(client):
 
     assert 200 == response.status_code
     assert "The Matrix Reloaded" == response_json['movie']['title']
+
+
+def test_delete_non_existing_movie_returns_not_found(client):
+    response = client.delete('/movies/0', json={
+        'title': "The Matrix Reloaded"
+    })
+
+    assert 404 == response.status_code
+
+
+def test_delete_existing_movie_returns_ok(client):
+    response = client.delete('/movies/1')
+    response_json = json.loads(response.data)
+
+    assert 200 == response.status_code
+    assert 1 == response_json['delete']

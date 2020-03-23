@@ -73,3 +73,21 @@ def update_movie(movie_id):
         'success': True,
         'movie': movie
     })
+
+
+@movies_bp.route('<int:movie_id>', methods=['DELETE'])
+def delete_movie(movie_id):
+    movie = MoviesRepository.get_movie_by_id(movie_id)
+
+    if not movie:
+        abort(404)
+
+    deleted = MoviesRepository.delete_movie(movie_id)
+
+    if not deleted:
+        abort(500)
+
+    return jsonify({
+        'success': True,
+        'delete': movie_id
+    })
