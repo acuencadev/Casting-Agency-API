@@ -18,6 +18,13 @@ class Movie(db.Model):
     actors = db.relationship('Actor', secondary=movies_actors,
                              backref=db.backref('movies', lazy=True))
 
+    def format(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'release_date': self.release_date,
+        }
+
 
 class Actor(db.Model):
     __tablename__ = 'actors'
@@ -26,3 +33,11 @@ class Actor(db.Model):
     name = db.Column(db.String)
     age = db.Column(db.Integer)
     gender = db.Column(db.String(1))
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender,
+        }
