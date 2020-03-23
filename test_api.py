@@ -57,3 +57,4 @@ def test_get_non_existing_movie_returns_ok(client):
     response_json = json.loads(response.data)
 
     assert 200 == response.status_code
+    assert 'movie' in response_json

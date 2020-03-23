@@ -26,5 +26,5 @@ def get_movie_by_id(movie_id):
 
     return jsonify({
         'success': True,
-        'movie': {}
+        'movie': movie
     })
