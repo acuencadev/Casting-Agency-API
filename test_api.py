@@ -58,3 +58,20 @@ def test_get_non_existing_movie_returns_ok(client):
 
     assert 200 == response.status_code
     assert 'movie' in response_json
+
+
+def test_create_movie_without_params_returns_bad_request(client):
+    response = client.post('/movies', json={})
+
+    assert 400 == response.status_code
+
+
+def test_create_movie_with_params_return_ok(client):
+    response = client.post('/movies', json={
+        'title': "Gladiator",
+        'release_date': '2000-05-05'
+    })
+    response_json = json.loads(response.data)
+
+    assert 200 == response.status_code
+    assert 'Gladiator' == response_json['movie']['title']
