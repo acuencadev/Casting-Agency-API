@@ -23,7 +23,10 @@ def client():
             the_matrix = Movie(title="The Matrix",
                                release_date=datetime(1999, 6, 10))
 
+            keanu_reeves = Actor(name="Keanu Reeves", age=55, gender="M")
+
             db.session.add(the_matrix)
+            db.session.add(keanu_reeves)
             db.session.commit()
 
         yield client
@@ -115,3 +118,11 @@ def test_delete_existing_movie_returns_ok(client):
 
     assert 200 == response.status_code
     assert 1 == response_json['delete']
+
+
+def test_get_all_actors_returns_ok(client):
+    response = client.get('/actors')
+    response_json = json.loads(response.data)
+
+    assert response_json['success'] == True
+    assert response_json['actors_count'] == 1

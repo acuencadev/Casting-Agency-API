@@ -75,3 +75,13 @@ class MoviesRepository:
             return False
 
         return True
+
+
+class ActorsRepository:
+
+    @staticmethod
+    def get_all_actors() -> List[Actor]:
+        actors = Actor.query.all()
+        formatted_actors = [actor.format() for actor in actors]
+
+        return formatted_actors
