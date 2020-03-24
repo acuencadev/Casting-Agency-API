@@ -134,3 +134,19 @@ class ActorsRepository:
         formatted_actor = actor.format()
 
         return formatted_actor
+
+    @staticmethod
+    def delete_actor(id: int) -> bool:
+        actor = Actor.query.get(id)
+
+        if not actor:
+            return False
+
+        try:
+            db.session.delete(actor)
+            db.session.commit()
+        except SQLAlchemyError:
+            # TODO: Log DB error into log file.
+            return False
+
+        return True

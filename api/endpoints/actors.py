@@ -73,3 +73,21 @@ def update_actor(actor_id):
         'success': True,
         'actor': actor
     })
+
+
+@actors_bp.route('<int:actor_id>', methods=['DELETE'])
+def delete_actor(actor_id):
+    actor = ActorsRepository.get_actor_by_id(actor_id)
+
+    if not actor:
+        abort(404)
+
+    deleted = ActorsRepository.delete_actor(actor_id)
+
+    if not deleted:
+        abort(500)
+
+    return jsonify({
+        'success': True,
+        'delete': actor_id
+    })

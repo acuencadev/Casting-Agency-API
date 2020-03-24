@@ -105,9 +105,7 @@ def test_update_existing_movie_returns_ok(client):
 
 
 def test_delete_non_existing_movie_returns_not_found(client):
-    response = client.delete('/movies/0', json={
-        'title': "The Matrix Reloaded"
-    })
+    response = client.delete('/movies/0')
 
     assert 404 == response.status_code
 
@@ -187,3 +185,17 @@ def test_update_existing_actor_returns_ok(client):
 
     assert 200 == response.status_code
     assert "Ben Stiller" == response_json['actor']['name']
+
+
+def test_delete_non_existing_actor_returns_not_found(client):
+    response = client.delete('/actors/0')
+
+    assert 404 == response.status_code
+
+
+def test_delete_existing_movie_returns_ok(client):
+    response = client.delete('/actors/1')
+    response_json = json.loads(response.data)
+
+    assert 200 == response.status_code
+    assert 1 == response_json['delete']
