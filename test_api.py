@@ -141,3 +141,49 @@ def test_get_existing_actor_returns_ok(client):
 
     assert 200 == response.status_code
     assert 'actor' in response_json
+
+
+def test_create_actor_without_params_returns_bad_request(client):
+    response = client.post('/actors', json={})
+
+    assert 400 == response.status_code
+
+
+def test_create_actor_with_params_return_ok(client):
+    response = client.post('/actors', json={
+        'name': "Russell Crowe",
+        'age': 60,
+        'gender': "M"
+    })
+    response_json = json.loads(response.data)
+
+    assert 200 == response.status_code
+    assert 'Russell Crowe' == response_json['actor']['name']
+
+
+def test_update_actor_without_params_returns_bad_request(client):
+    response = client.patch('/actors/0', json={})
+
+    assert 400 == response.status_code
+
+
+def test_update_non_existing_actor_returns_not_found(client):
+    response = client.patch('/actors/0', json={
+        'name': "Ben Stiller",
+        'age': 42,
+        'gender': "M"
+    })
+
+    assert 404 == response.status_code
+
+
+def test_update_existing_actor_returns_ok(client):
+    response = client.patch('/actors/1', json={
+        'name': "Ben Stiller",
+        'age': 42,
+        'gender': "M"
+    })
+    response_json = json.loads(response.data)
+
+    assert 200 == response.status_code
+    assert "Ben Stiller" == response_json['actor']['name']

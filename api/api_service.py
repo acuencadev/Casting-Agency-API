@@ -96,3 +96,41 @@ class ActorsRepository:
         formatted_actor = actor.format()
 
         return formatted_actor
+
+    @staticmethod
+    def create_actor(name: str, age: int, gender: str) -> Optional[Actor]:
+        actor = Actor(name=name, age=age, gender=gender)
+
+        try:
+            db.session.add(actor)
+            db.session.commit()
+        except SQLAlchemyError as err:
+            # TODO: Log DB error into log file.
+            return None
+
+        formatted_actor = actor.format()
+
+        return formatted_actor
+
+    @staticmethod
+    def update_actor(actor_id: int, name: str = None, age: str = None,
+                     gender: str = None) -> Optional[Actor]:
+        actor = Actor.query.get(actor_id)
+
+        if not actor:
+            return None
+
+        if name:
+            actor.name = name
+
+        if age:
+            actor.age = age
+
+        if gender:
+            actor.gender = gender
+
+        db.session.commit()
+
+        formatted_actor = actor.format()
+
+        return formatted_actor
