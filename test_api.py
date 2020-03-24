@@ -55,7 +55,7 @@ def test_get_non_existing_movie_returns_not_found(client):
     assert 404 == response.status_code
 
 
-def test_get_non_existing_movie_returns_ok(client):
+def test_get_existing_movie_returns_ok(client):
     response = client.get('/movies/1')
     response_json = json.loads(response.data)
 
@@ -126,3 +126,18 @@ def test_get_all_actors_returns_ok(client):
 
     assert response_json['success'] == True
     assert response_json['actors_count'] == 1
+
+
+def test_get_non_existing_actor_returns_not_found(client):
+    response = client.get('/actors/0')
+    response_json = json.loads(response.data)
+
+    assert 404 == response.status_code
+
+
+def test_get_existing_actor_returns_ok(client):
+    response = client.get('/actors/1')
+    response_json = json.loads(response.data)
+
+    assert 200 == response.status_code
+    assert 'actor' in response_json

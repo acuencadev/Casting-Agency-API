@@ -85,3 +85,14 @@ class ActorsRepository:
         formatted_actors = [actor.format() for actor in actors]
 
         return formatted_actors
+
+    @staticmethod
+    def get_actor_by_id(actor_id: int) -> Optional[Actor]:
+        actor = Actor.query.get(actor_id)
+
+        if not actor:
+            return None
+
+        formatted_actor = actor.format()
+
+        return formatted_actor
