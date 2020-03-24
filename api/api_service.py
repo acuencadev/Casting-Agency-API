@@ -41,9 +41,9 @@ class MoviesRepository:
         return formatted_movie
 
     @staticmethod
-    def update_movie(id: int, title: str = None,
+    def update_movie(movie_id: int, title: str = None,
                      release_date: str = None) -> Optional[Movie]:
-        movie = Movie.query.get(id)
+        movie = Movie.query.get(movie_id)
 
         if not movie:
             return None
@@ -61,8 +61,8 @@ class MoviesRepository:
         return formatted_movie
 
     @staticmethod
-    def delete_movie(id: int) -> bool:
-        movie = Movie.query.get(id)
+    def delete_movie(movie_id: int) -> bool:
+        movie = Movie.query.get(movie_id)
 
         if not movie:
             return False
@@ -136,8 +136,8 @@ class ActorsRepository:
         return formatted_actor
 
     @staticmethod
-    def delete_actor(id: int) -> bool:
-        actor = Actor.query.get(id)
+    def delete_actor(actor_id: int) -> bool:
+        actor = Actor.query.get(actor_id)
 
         if not actor:
             return False
