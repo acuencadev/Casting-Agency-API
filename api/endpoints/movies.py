@@ -37,7 +37,7 @@ def get_movie_by_id(movie_id):
 def create_movie():
     data = request.get_json()
 
-    if 'title' not in data and 'release_date' not in data:
+    if 'title' not in data or 'release_date' not in data:
         abort(400)
 
     movie = MoviesRepository.create_movie(
