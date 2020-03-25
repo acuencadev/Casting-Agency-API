@@ -4,12 +4,14 @@ from dateutil import parser
 from flask import abort, Blueprint, jsonify, request
 
 from ..api_service import ActorsRepository
+from ..auth import requires_auth
 
 
 actors_bp = Blueprint('actors_bp', __name__)
 
 
 @actors_bp.route('', methods=['GET'])
+@requires_auth('get:actors')
 def get_all_actors():
     actors = ActorsRepository.get_all_actors()
 
@@ -21,6 +23,7 @@ def get_all_actors():
 
 
 @actors_bp.route('/<int:actor_id>', methods=['GET'])
+@requires_auth('get:actor')
 def get_actor_by_id(actor_id):
     actor = ActorsRepository.get_actor_by_id(actor_id)
 
@@ -34,6 +37,7 @@ def get_actor_by_id(actor_id):
 
 
 @actors_bp.route('', methods=['POST'])
+@requires_auth('post:actor')
 def create_actor():
     data = request.get_json()
 
@@ -53,6 +57,7 @@ def create_actor():
 
 
 @actors_bp.route('/<int:actor_id>', methods=['PATCH'])
+@requires_auth('patch:actor')
 def update_actor(actor_id):
     data = request.get_json()
 
@@ -76,6 +81,7 @@ def update_actor(actor_id):
 
 
 @actors_bp.route('<int:actor_id>', methods=['DELETE'])
+@requires_auth('delete:actor')
 def delete_actor(actor_id):
     actor = ActorsRepository.get_actor_by_id(actor_id)
 

@@ -4,12 +4,14 @@ from dateutil import parser
 from flask import abort, Blueprint, jsonify, request
 
 from ..api_service import MoviesRepository
+from ..auth import requires_auth
 
 
 movies_bp = Blueprint('movies_bp', __name__)
 
 
 @movies_bp.route('', methods=['GET'])
+@requires_auth('get:movies')
 def get_all_movies():
     movies = MoviesRepository.get_all_movies()
 
@@ -21,6 +23,7 @@ def get_all_movies():
 
 
 @movies_bp.route('/<int:movie_id>', methods=['GET'])
+@requires_auth('get:movie')
 def get_movie_by_id(movie_id):
     movie = MoviesRepository.get_movie_by_id(movie_id)
 
@@ -34,6 +37,7 @@ def get_movie_by_id(movie_id):
 
 
 @movies_bp.route('', methods=['POST'])
+@requires_auth('post:movie')
 def create_movie():
     data = request.get_json()
 
@@ -53,6 +57,7 @@ def create_movie():
 
 
 @movies_bp.route('/<int:movie_id>', methods=['PATCH'])
+@requires_auth('patch:movie')
 def update_movie(movie_id):
     data = request.get_json()
 
@@ -76,6 +81,7 @@ def update_movie(movie_id):
 
 
 @movies_bp.route('<int:movie_id>', methods=['DELETE'])
+@requires_auth('delete:movie')
 def delete_movie(movie_id):
     movie = MoviesRepository.get_movie_by_id(movie_id)
 
