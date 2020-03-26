@@ -14,7 +14,7 @@ actors_bp = Blueprint('actors_bp', __name__)
 
 @actors_bp.route('', methods=['GET'])
 @requires_auth('get:actors')
-def get_all_actors():
+def get_all_actors(jwt):
     page = request.args.get('page', 1, type=int)
     start = (page - 1) * ACTORS_PER_PAGE
     end = start + ACTORS_PER_PAGE
@@ -30,7 +30,7 @@ def get_all_actors():
 
 @actors_bp.route('/<int:actor_id>', methods=['GET'])
 @requires_auth('get:actor')
-def get_actor_by_id(actor_id):
+def get_actor_by_id(jwt, actor_id):
     actor = ActorsRepository.get_actor_by_id(actor_id)
 
     if not actor:
@@ -44,7 +44,7 @@ def get_actor_by_id(actor_id):
 
 @actors_bp.route('', methods=['POST'])
 @requires_auth('post:actor')
-def create_actor():
+def create_actor(jwt):
     data = request.get_json()
 
     if 'name' not in data or 'age' not in data or 'gender' not in data:
@@ -64,7 +64,7 @@ def create_actor():
 
 @actors_bp.route('/<int:actor_id>', methods=['PATCH'])
 @requires_auth('patch:actor')
-def update_actor(actor_id):
+def update_actor(jwt, actor_id):
     data = request.get_json()
 
     if 'name' not in data and 'age' not in data and 'gender' not in data:
@@ -88,7 +88,7 @@ def update_actor(actor_id):
 
 @actors_bp.route('<int:actor_id>', methods=['DELETE'])
 @requires_auth('delete:actor')
-def delete_actor(actor_id):
+def delete_actor(jwt, actor_id):
     actor = ActorsRepository.get_actor_by_id(actor_id)
 
     if not actor:

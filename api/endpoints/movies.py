@@ -14,7 +14,7 @@ movies_bp = Blueprint('movies_bp', __name__)
 
 @movies_bp.route('', methods=['GET'])
 @requires_auth('get:movies')
-def get_all_movies():
+def get_all_movies(jwt):
     page = request.args.get('page', 1, type=int)
     start = (page - 1) * MOVIES_PER_PAGE
     end = start + MOVIES_PER_PAGE
@@ -30,7 +30,7 @@ def get_all_movies():
 
 @movies_bp.route('/<int:movie_id>', methods=['GET'])
 @requires_auth('get:movie')
-def get_movie_by_id(movie_id):
+def get_movie_by_id(jwt, movie_id):
     movie = MoviesRepository.get_movie_by_id(movie_id)
 
     if not movie:
@@ -44,7 +44,7 @@ def get_movie_by_id(movie_id):
 
 @movies_bp.route('', methods=['POST'])
 @requires_auth('post:movie')
-def create_movie():
+def create_movie(jwt):
     data = request.get_json()
 
     if 'title' not in data or 'release_date' not in data:
@@ -64,7 +64,7 @@ def create_movie():
 
 @movies_bp.route('/<int:movie_id>', methods=['PATCH'])
 @requires_auth('patch:movie')
-def update_movie(movie_id):
+def update_movie(jwt, movie_id):
     data = request.get_json()
 
     if 'title' not in data:
@@ -88,7 +88,7 @@ def update_movie(movie_id):
 
 @movies_bp.route('<int:movie_id>', methods=['DELETE'])
 @requires_auth('delete:movie')
-def delete_movie(movie_id):
+def delete_movie(jwt, movie_id):
     movie = MoviesRepository.get_movie_by_id(movie_id)
 
     if not movie:
@@ -107,7 +107,7 @@ def delete_movie(movie_id):
 
 @movies_bp.route('<int:movie_id>', methods=['POST'])
 @requires_auth('post:assign-actor')
-def assign_actor(movie_id):
+def assign_actor(jwt, movie_id):
     movie = MoviesRepository.get_movie_by_id(movie_id)
 
     if not movie:
