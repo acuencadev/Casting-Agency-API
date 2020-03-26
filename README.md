@@ -104,8 +104,8 @@ Errors are returned as JSON objects in the following format:
 - POST '/movies'
 - POST '/movies/movie_id'
 - POST '/actors'
-- PATCH '/movies/movie_i'
-- PATCH '/actors/actor'
+- PATCH '/movies/movie_id'
+- PATCH '/actors/actor_id'
 - DELETE '/movies/movie_id'
 - DELETE '/actors/actor_id'
 
@@ -240,7 +240,7 @@ Errors are returned as JSON objects in the following format:
 
 - General:
   - Creates a new actor
-  - Request Arguments: An JSON object containing the name and age and the gender.
+  - Request Arguments: An JSON object containing the name, the age and the gender.
   - Returns: Whether or not the request was completed and the actor model.
 - Sample: `curl http://localhost:5000/actors -X POST -H "Content-Type: application/json" -d '{"name": "Russell Crowe", "age": 60, "gender": "M" }'`
 
@@ -262,6 +262,73 @@ Errors are returned as JSON objects in the following format:
   - Request Arguments: An JSON object containing the actor id.
   - Returns: Whether or not the request was completed.
 - Sample: `curl http://localhost:5000/movies/1 -X POST -H "Content-Type: application/json" -d '{"actor_id": 3 }'`
+
+```
+{
+    "success": True
+}
+```
+
+**PATCH /movies/movie_id**
+
+- General:
+  - Update a movie attributes
+  - Request Arguments: An JSON object containing the title and/or the release date.
+  - Returns: Whether or not the request was completed and the movie model.
+- Sample: `curl http://localhost:5000/movies/3 -X PATCH -H "Content-Type: application/json" -d '{ "release_date": "16/05/2020" }'`
+
+```
+{
+    "success": True,
+    "movie": {
+        "id": 3,
+        "title": "The Matrix Reloaded",
+        "release_date": "16/05/2020"
+    }
+}
+```
+
+**PATCH /actors/actor_id**
+
+- General:
+  - Update an actor attributes
+  - Request Arguments: An JSON object containing the name, the age and or the gender.
+  - Returns: Whether or not the request was completed and the actor model.
+- Sample: `curl http://localhost:5000/actors/3 -X PATCH -H "Content-Type: application/json" -d '{ "gender": "F" }'`
+
+```
+{
+    "success": True,
+    "movie": {
+        "id": 3,
+        "name": "Caitlyn Jenner",
+        "age": 70,
+        "gender": "F"
+    }
+}
+```
+
+**DELETE /movies/movie_id**
+
+- General:
+  - Delete a movie from the database.
+  - Request Arguments: None.
+  - Returns: Whether or not the movie was deleted.
+- Sample: `curl http://localhost:5000/movies/1 -X DELETE`
+
+```
+{
+    "success": True
+}
+```
+
+**DELETE /actors/actor_id**
+
+- General:
+  - Delete an actor from the database.
+  - Request Arguments: None.
+  - Returns: Whether or not the actor was deleted.
+- Sample: `curl http://localhost:5000/actors/1 -X DELETE`
 
 ```
 {
