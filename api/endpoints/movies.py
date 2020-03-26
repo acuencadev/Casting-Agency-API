@@ -7,17 +7,23 @@ from ..api_service import MoviesRepository
 from ..auth import requires_auth
 
 
+MOVIES_PER_PAGE = 10
+
 movies_bp = Blueprint('movies_bp', __name__)
 
 
 @movies_bp.route('', methods=['GET'])
 @requires_auth('get:movies')
 def get_all_movies():
+    page = request.args.get('page', 1, type=int)
+    start = (page - 1) * MOVIES_PER_PAGE
+    end = start + MOVIES_PER_PAGE
+
     movies = MoviesRepository.get_all_movies()
 
     return jsonify({
         'success': True,
-        'movies': movies,
+        'movies': movies[start:end],
         'movies_count': len(movies)
     })
 

@@ -40,7 +40,7 @@ def test_home_route(client):
     assert "Hello World" == response_json['message']
 
 
-def test_get_all_movies_returns_ok(client):
+def test_get_all_movies_without_page_returns_ok(client):
     response = client.get('/movies')
     response_json = json.loads(response.data)
 
@@ -118,7 +118,7 @@ def test_delete_existing_movie_returns_ok(client):
     assert 1 == response_json['delete']
 
 
-def test_get_all_actors_returns_ok(client):
+def test_get_all_actors_without_page_returns_ok(client):
     response = client.get('/actors')
     response_json = json.loads(response.data)
 

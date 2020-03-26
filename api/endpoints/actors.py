@@ -7,17 +7,23 @@ from ..api_service import ActorsRepository
 from ..auth import requires_auth
 
 
+ACTORS_PER_PAGE = 10
+
 actors_bp = Blueprint('actors_bp', __name__)
 
 
 @actors_bp.route('', methods=['GET'])
 @requires_auth('get:actors')
 def get_all_actors():
+    page = request.args.get('page', 1, type=int)
+    start = (page - 1) * ACTORS_PER_PAGE
+    end = start + ACTORS_PER_PAGE
+
     actors = ActorsRepository.get_all_actors()
 
     return jsonify({
         'success': True,
-        'actors': actors,
+        'actors': actors[start:end],
         'actors_count': len(actors)
     })
 

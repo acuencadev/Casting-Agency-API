@@ -127,8 +127,8 @@ Errors are returned as JSON objects in the following format:
 
 - General:
   - Fetches a list of movies
-  - Request Arguments: None
-  - Returns: Whether or not the request is successful, A list of movies, the movies count. 
+  - Request Arguments: Optional page (defaults to 1)
+  - Returns: Whether or not the request is successful, the current page, a list of movies, the movies count. 
 - Sample: `curl http://localhost:5000/movies`
 
 ```
@@ -146,6 +146,7 @@ Errors are returned as JSON objects in the following format:
             "release_date": "05/05/2000"
         }
     ],
+    "page": 1,
     "movies_count": 2
 }
 ```
@@ -173,8 +174,8 @@ Errors are returned as JSON objects in the following format:
 
 - General:
   - Fetches a list of actors
-  - Request Arguments: None
-  - Returns: Whether or not the request is successful, A list of actors, the actors count. 
+  - Request Arguments: Optional page (defaults to 1)
+  - Returns: Whether or not the request is successful, the current page, a list of actors, the actors count. 
 - Sample: `curl http://localhost:5000/movies`
 
 ```
