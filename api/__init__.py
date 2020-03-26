@@ -11,12 +11,6 @@ def create_app(test_settings=None):
     register_extensions(app)
     register_blueprints(app)
 
-    @app.route('/')
-    def home():
-        return jsonify({
-            'version': app.config['API_VERSION']
-        })
-
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
@@ -78,7 +72,8 @@ def register_extensions(app: Flask):
 
 
 def register_blueprints(app: Flask):
-    from .endpoints import actors_bp, movies_bp
+    from .endpoints import actors_bp, base_bp, movies_bp
 
     app.register_blueprint(actors_bp, url_prefix='/actors')
+    app.register_blueprint(base_bp, url_prefix='/')
     app.register_blueprint(movies_bp, url_prefix='/movies')
