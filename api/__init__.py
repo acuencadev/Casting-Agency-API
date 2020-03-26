@@ -14,7 +14,7 @@ def create_app(test_settings=None):
     @app.route('/')
     def home():
         return jsonify({
-            'message': "Hello World"
+            'version': app.config['API_VERSION']
         })
 
     @app.errorhandler(400)
