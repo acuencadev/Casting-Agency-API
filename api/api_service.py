@@ -76,6 +76,23 @@ class MoviesRepository:
 
         return True
 
+    @staticmethod
+    def assign_actor(movie_id: int, actor_id: int) -> bool:
+        movie = Movie.query.get(movie_id)
+        actor = Actor.query.get(actor_id)
+
+        if not actor or not movie:
+            return False
+
+        try:
+            movie.actors.append(actor)
+
+            db.session.commit()
+        except SQLAlchemyError:
+            return False
+
+        return True
+
 
 class ActorsRepository:
 

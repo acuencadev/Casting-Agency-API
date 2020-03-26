@@ -199,3 +199,31 @@ def test_delete_existing_movie_returns_ok(client):
 
     assert 200 == response.status_code
     assert 1 == response_json['delete']
+
+
+def test_assign_actor_to_non_existing_movie_returns_not_found(client):
+    response = client.post('/movies/0')
+
+    assert 404 == response.status_code
+
+
+def test_call_assign_actor_to_movie_without_params_returns_bad_request(client):
+    response = client.post('/movies/1', json={})
+
+    assert 400 == response.status_code
+
+
+def test_assign_non_existing_actor_to_movie_returns_bad_request(client):
+    response = client.post('/movies/1', json={
+        'actor_id': 7
+    })
+
+    assert 400 == response.status_code
+
+
+def test_assign_actor_to_movie_returns_ok(client):
+    response = client.post('/movies/1', json={
+        'actor_id': 1
+    })
+
+    assert 200 == response.status_code

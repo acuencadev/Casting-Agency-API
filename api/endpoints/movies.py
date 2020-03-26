@@ -97,3 +97,26 @@ def delete_movie(movie_id):
         'success': True,
         'delete': movie_id
     })
+
+
+@movies_bp.route('<int:movie_id>', methods=['POST'])
+@requires_auth('post:assign-actor')
+def assign_actor(movie_id):
+    movie = MoviesRepository.get_movie_by_id(movie_id)
+
+    if not movie:
+        abort(404)
+
+    data = request.get_json()
+
+    if 'actor_id' not in data:
+        abort(400)
+
+    actor_id = data['actor_id']
+
+    if not MoviesRepository.assign_actor(movie_id, actor_id):
+        abort(400)
+
+    return jsonify({
+        'success': True
+    })
