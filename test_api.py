@@ -44,7 +44,7 @@ def test_get_all_movies_returns_ok(client):
     response = client.get('/movies')
     response_json = json.loads(response.data)
 
-    assert response_json['success'] == True
+    assert response_json['success']
     assert response_json['movies_count'] == 1
 
 
@@ -122,7 +122,7 @@ def test_get_all_actors_returns_ok(client):
     response = client.get('/actors')
     response_json = json.loads(response.data)
 
-    assert response_json['success'] == True
+    assert response_json['success']
     assert response_json['actors_count'] == 1
 
 
