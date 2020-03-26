@@ -9,14 +9,21 @@ from .models import Movie, Actor
 class MoviesRepository:
     @staticmethod
     def get_all_movies() -> List[Movie]:
-        movies = Movie.query.all()
+        try:
+            movies = Movie.query.all()
+        except SQLAlchemyError:
+            return []
+
         formatted_movies = [movie.format() for movie in movies]
 
         return formatted_movies
 
     @staticmethod
     def get_movie_by_id(movie_id: int) -> Optional[Movie]:
-        movie = Movie.query.get(movie_id)
+        try:
+            movie = Movie.query.get(movie_id)
+        except SQLAlchemyError:
+            return None
 
         if not movie:
             return None
@@ -43,7 +50,10 @@ class MoviesRepository:
     @staticmethod
     def update_movie(movie_id: int, title: str = None,
                      release_date: str = None) -> Optional[Movie]:
-        movie = Movie.query.get(movie_id)
+        try:
+            movie = Movie.query.get(movie_id)
+        except SQLAlchemyError:
+            return None
 
         if not movie:
             return None
@@ -62,7 +72,10 @@ class MoviesRepository:
 
     @staticmethod
     def delete_movie(movie_id: int) -> bool:
-        movie = Movie.query.get(movie_id)
+        try:
+            movie = Movie.query.get(movie_id)
+        except SQLAlchemyError:
+            return None
 
         if not movie:
             return False
@@ -78,8 +91,15 @@ class MoviesRepository:
 
     @staticmethod
     def assign_actor(movie_id: int, actor_id: int) -> bool:
-        movie = Movie.query.get(movie_id)
-        actor = Actor.query.get(actor_id)
+        try:
+            movie = Movie.query.get(movie_id)
+        except SQLAlchemyError:
+            return False
+
+        try:
+            actor = Actor.query.get(actor_id)
+        except SQLAlchemyError:
+            return False
 
         if not actor or not movie:
             return False
@@ -98,14 +118,21 @@ class ActorsRepository:
 
     @staticmethod
     def get_all_actors() -> List[Actor]:
-        actors = Actor.query.all()
+        try:
+            actors = Actor.query.all()
+        except SQLAlchemyError:
+            return []
+
         formatted_actors = [actor.format() for actor in actors]
 
         return formatted_actors
 
     @staticmethod
     def get_actor_by_id(actor_id: int) -> Optional[Actor]:
-        actor = Actor.query.get(actor_id)
+        try:
+            actor = Actor.query.get(actor_id)
+        except SQLAlchemyError:
+            return []
 
         if not actor:
             return None
@@ -132,7 +159,10 @@ class ActorsRepository:
     @staticmethod
     def update_actor(actor_id: int, name: str = None, age: str = None,
                      gender: str = None) -> Optional[Actor]:
-        actor = Actor.query.get(actor_id)
+        try:
+            actor = Actor.query.get(actor_id)
+        except SQLAlchemyError:
+            return []
 
         if not actor:
             return None
@@ -154,7 +184,10 @@ class ActorsRepository:
 
     @staticmethod
     def delete_actor(actor_id: int) -> bool:
-        actor = Actor.query.get(actor_id)
+        try:
+            actor = Actor.query.get(actor_id)
+        except SQLAlchemyError:
+            return []
 
         if not actor:
             return False
