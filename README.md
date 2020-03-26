@@ -26,7 +26,7 @@ The HTTP requests need the `Authorization` header as follows:
 Authorization: Bearer ACCESS_TOKEN_GOES_HERE
 ```
 
-#### User Roles:
+#### User Roles
 
 - Casting Assistant
 
@@ -359,7 +359,16 @@ Errors are returned as JSON objects in the following format:
 
 ## Testing
 
-To run the tests, run
+To run the tests,follow these steps:
+
+- Login into `https://dev-on139kbu.auth0.com/authorize?audience=casting&response_type=token&client_id=MOidZ5GjJOCgRaroVg308GxpIxlUkxWw&redirect_uri=https://casting-agency-udacity-app.herokuapp.com/login_results`
+- Copy the resulting token and create an ENV variable named `TEST_ACCESS_TOKEN` like follows
+
+export TEST_ACCESS_TOKEN=TOKEN_GOES_HERE
+
+This token is needed to authenticate the requests. There are 3 [User Roles](#User-Roles). Some tests will fails if the user authenticates with roles without permissions. The Executive Producer role has access to endpoints and all the tests pass.
+
+- run
 
 ```bash
 pytest test_api.py
